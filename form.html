@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+    box-sizing: border-box;
+    border: 3px solid black;
+    width: 50vw;
+    position: relative;
+    left: 24vw;
+    top: 12vh;
+    font-size: larger;
+    font-weight: 600;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #e3be8c;
+    }
+    .Btn{
+        font-size: large;
+    background-color: black;
+    color: white;
+    border-radius: 6px;
+    font-weight: 800;
+    }
+    .btn{
+        font-size: large;
+    background-color: black;
+    color: white;
+    border-radius: 6px;
+    font-weight: 800;
+    }
+    .btn1{
+        font-size: large;
+    background-color: black;
+    color: white;
+    border-radius: 6px;
+    font-weight: 800;
+    }
+    input{
+        border: none;
+        background: none;
+        border-bottom: 2px solid black;
+    }
+    textarea{
+        border: none;
+        background: none;
+        border-bottom: 2px solid black;
+    }
+    table{
+    position: relative;
+    top: 19vh;
+    left: 26vw;
+    width: 43vw;
+    font-weight: 800;
+    border: 3px solid black;
+    font-size: larger;
+    background-color: #e3be8c;
+    }
+</style>
+<body >
+   <div>
+        <form name = "regfrm" id="f_id">
+            Full Name : 
+            <input type="text"  name="fname" id="fullname" >
+            <br><br>
+            E-mail :
+            <input type="email" name="email" id = "e_mail">
+            <br><br>
+            Gender :
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> female
+            <br><br>
+            Mobile No:
+            <input type="number" name="mob_no" id = "mob_no">
+            <br><br>
+            Address:
+            <textarea   id="address" name = "Address" cols="70" rows="2"></textarea>
+            <br><br>
+            <label>Job Type :</label>
+            <input type="checkbox" name="job-type" value="commercial">commercial
+            <input type="checkbox" name="job-type" value="industrial">industrial
+            <input type="checkbox" name="job-type" value="agriculture">agriculture
+            <br><br>
+            <input type="button" id="entry" class="Btn" value="Submit">
+        </form>
+        
+    </div>
+
+    <table id = "tbl" border="2">
+    <thead>        
+        <tr>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Gender</td>
+            <td>mob-no</td>
+            <td>Address</td>
+            <td>Job_type</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    </table>
+</body>
+<script type="text/javascript">
+
+    document.querySelector("#entry").addEventListener("click",saveForm);
+    
+    
+    function saveForm(){
+        // e.preventDefault;
+        var fullName = document.querySelector("#fullname").value;
+        let emailID = document.querySelector("#e_mail").value;
+        let gender = document.querySelector("[name=gender]:checked");
+        let mobileNumber = document.querySelector("#mob_no").value;
+        let address = document.querySelector("#address").value;
+        let job_type =  document.querySelectorAll("[name=job-type]");
+        let form_id = document.querySelector("#f_id");
+      
+        if(fullName == ""){
+            alert("your name is required");
+            regfrm.fname.focus();
+            return false;  }
+      
+        if(emailID == ""){
+            alert("email-id is must be filled");
+            regfrm.email.focus();
+            return false;  }
+
+        if(gender == null){
+            alert("please select your gender");
+            regfrm.gender[0].focus();
+            return false;
+        }
+       let Gender =  gender.value;
+
+        if(mobileNumber == ""){
+            alert("mobileNumber is must be filled");
+            regfrm.mob_no.focus();
+            return false;  
+        }
+
+        if(address == ""){
+            alert("address is must be filled");
+            regfrm.Address.focus();
+            return false;  }
+       
+        if(job_type[0].checked==false && job_type[1].checked==false && job_type[2].checked==false){
+            alert("please select your job type");
+            return false;
+        }
+
+        let savevalue = [];
+        let jobTypeArray;
+       
+            for(i=0; i < job_type.length; i++){
+                if(job_type[i].checked){
+                 savevalue.push(job_type[i].value);
+                }
+            }
+            jobTypeArray = savevalue.toString();
+            
+
+        let table = document.querySelector("#tbl tbody");
+        let data = "<tr><td>" + fullName + "</td><td>" + emailID + "</td><td>" + Gender + "</td><td>" + mobileNumber + "</td><td>" + address + "</td><td>" + jobTypeArray + "</td>" + `<td> <button class = "btn" id="myBTN">Delete</button></td> <td> <button class = "btn1" id = "myBTN1">Edit</button></td>` + "</tr>";
+
+        table.insertAdjacentHTML("afterend", data);
+
+         
+        document.querySelector(".btn").addEventListener("click",deleteRow);
+        document.querySelector(".btn1").addEventListener("click",editRow);
+
+        form_id.reset();
+
+        function editRow(){    
+            document.querySelector("#fullname").value = fullName;
+            document.querySelector("#e_mail").value = emailID;
+            // document.querySelector("[name=gender]:checked") ;
+            document.querySelector("#mob_no").value =  mobileNumber;
+            document.querySelector("#address").value =   address;
+        } 
+        function deleteRow(){
+            document.querySelector("#myBTN").closest("tr").remove();
+    
+        }
+    }
+    
+</script>
+</html> 
